@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const express = require('express');
@@ -9,14 +7,14 @@ const mongoose = require('mongoose');
 const logger = require('morgan');
 const path = require('path');
 
+
+
 const app_name = require('./package.json').name;
 const debug = require('debug')(
   `${app_name}:${path.basename(__filename).split('.')[0]}`
 );
 
 const app = express();
-const router= express.Router();
-const Movie = require('../lab-express-cinema/models/Movie.model')
 
 // require database configuration
 require('./configs/db.config');
@@ -35,26 +33,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 // default value for title local
-app.locals.title = 'Express - Generated with IronGenerator';
+
 
 const index = require('./routes/index');
 app.use('/', index);
 
-app.get("/", (req, res) => {
-  res.render("index")
-  
-})
-
-// app.get("/movies", (req, res) => {
-//   res.render("movies.hbs")
-// })
-router.get("/movies", (req,res,next) =>{
-  Movie.find(movies)
-  .then(allTheMoviesFromSB =>{
-    res.render("movies.hbs", {movies: allTheMoviesFromSB});
-  })
-  .catch(error =>console.log("Error while getting the movies from the DB;", error))
-});
 
 
+app.listen(3000, () => console.log('App listening on port 3000!'));
 module.exports = app;
